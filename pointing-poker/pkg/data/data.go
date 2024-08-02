@@ -16,8 +16,8 @@ const (
 )
 
 type ReadWriter interface {
-	Write(string) error
-	Read(string) (bool, error)
+	Write(any) error
+	Read(any) (bool, error)
 }
 
 func NewDatabase(databaseType string) (ReadWriter, error) {
