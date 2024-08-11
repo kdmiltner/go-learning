@@ -34,10 +34,15 @@ func Run() {
 	fmt.Println(compileAppRec("magefiles/mage/go.mod"))
 }
 
+// HelloCFA is a mage target that prints out "Hello, Chick-fil-A!".
+// Run with the command: `mage helloCFA`.
 func HelloCFA() {
 	fmt.Println("Hello, Chick-fil-A!")
 }
 
+// CompileApps will walk the repo directory and compile a list of apps based on the
+// go.mod files found. Each go.mod file path will be treated as an app.
+// Run with the command: `mage compileApps`.
 func CompileApps() error {
 	err := compileRecords()
 	fmt.Println(appRecords)
