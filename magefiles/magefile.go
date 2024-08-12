@@ -1,10 +1,9 @@
 package main
 
 import (
+	"errors"
 	"fmt"
-	"io/fs"
-	"path/filepath"
-	"strings"
+	"log"
 )
 
 const (
@@ -21,6 +20,7 @@ const (
 // Sets global and env variables that can be accessed in multiple functions.
 var (
 	appRecords []AppRecord
+	cgoEnabled map[string]string
 )
 
 // AppRecord holds the information about an app record. An AppRecord is created for any directory that
@@ -30,8 +30,14 @@ type AppRecord struct {
 	AppName string
 }
 
+func init() {
+	cgoEnabled = map[string]string{"CGO_ENABLED": "0"}
+	if err := CompileApps(); err != nil {
+		log.Fatal(err)
+	}
+}
+
 func Run() {
-	fmt.Println(compileAppRec("magefiles/mage/go.mod"))
 }
 
 // HelloCFA is a mage target that prints out "Hello, Chick-fil-A!".
@@ -50,40 +56,21 @@ func CompileApps() error {
 	return err
 }
 
-// compileRecords walks the root directory to compile a list of `[]AppRecord`.
-func compileRecords() error {
-	err := filepath.WalkDir(rootPath, func(path string, dir fs.DirEntry, err error) error {
-		if err != nil {
-			return err
-		}
-
-		// Process paths and handle case where path can equal the root go.mod.
-		if strings.Contains(path, goModPath) || path == goModRoot {
-			record := compileAppRec(path)
-			appRecords = append(appRecords, record)
-		}
-
-		return nil
-	})
-
-	return err
-}
-
-// compileAppRec compiles all the app information into an `AppRecord{}`.
-func compileAppRec(path string) AppRecord {
-	record := AppRecord{}
-
-	// Handle case where the root directory has a go.mod.
-	if path == goModRoot {
-		record.AppPath = filepath.Base(filepath.Dir(path))
-		record.AppName = mainAppName
-
-		return record
+// Test will run tests for a single app or all apps based on the value provided.
+// Run with the command: `mage all` OR `mage appName`.
+func Test(app string) error {
+	if app == "all" {
+		testAll()
 	}
 
-	path, _ = strings.CutSuffix(path, goModPath)
-	record.AppPath = path
-	record.AppName = strings.Replace(path, "/", "-", -1)
+	var wrapErr error
+	for _, appRec := range appRecords {
+		if app == appRec.AppPath || app == appRec.AppName {
+			if err := test(appRec); err != nil {
+				wrapErr = errors.Join(err, wrapErr)
+			}
+		}
+	}
 
-	return record
+	return wrapErr
 }
