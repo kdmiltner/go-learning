@@ -40,7 +40,7 @@ func (s *Server) handleJoinSession(w http.ResponseWriter, r *http.Request) {
 	found, err := s.database.Read(sessionID)
 	if err != nil {
 		w.WriteHeader(500)
-		w.Write([]byte(fmt.Sprintf("error: %v", err)))
+		w.Write([]byte(fmt.Sprintf("error finding sessionID: %v", err)))
 		return
 	}
 	if !found {
