@@ -56,7 +56,7 @@ func MakeSound(animal Sounder) error {
 	}
 
 	fmt.Println(output)
-	return nil
+	return err
 }
 
 func main() {
