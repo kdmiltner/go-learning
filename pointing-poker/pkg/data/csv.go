@@ -2,6 +2,7 @@ package data
 
 import (
 	"encoding/csv"
+	"errors"
 	"fmt"
 	"os"
 	"sync"
@@ -30,10 +31,14 @@ func (c *csvDatabase) Read(value string) (bool, error) {
 		wg    sync.WaitGroup
 	)
 
+	fmt.Println(c.csv.Name())
 	r := csv.NewReader(c.csv)
 	records, err := r.ReadAll()
 	if err != nil {
 		return found, fmt.Errorf("error reading from %s: %v", tmpDBFile, err)
+	}
+	if records == nil {
+		return found, errors.New("records is empty")
 	}
 
 	// TODO: look at using the index to capture where the sessionID match is
