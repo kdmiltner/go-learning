@@ -1,7 +1,6 @@
 package pointingPoker
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/go-chi/chi"
@@ -27,7 +26,7 @@ func (s *Server) bootstrapServer() {
 	var err error
 	s.database, err = data.NewDatabase(data.DatabaseCSV)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 }
 
@@ -48,6 +47,6 @@ func (s *Server) routes() {
 		w.Write([]byte("Hello World"))
 	})
 	if err := http.ListenAndServe(":8080", r); err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 }
