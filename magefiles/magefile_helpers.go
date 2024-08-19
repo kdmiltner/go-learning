@@ -2,12 +2,22 @@ package main
 
 import (
 	"fmt"
-	"github.com/magefile/mage/mg"
-	"github.com/magefile/mage/sh"
 	"io/fs"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/magefile/mage/mg"
+	"github.com/magefile/mage/sh"
+)
+
+const (
+	// goMod represents any go.mod file.
+	goMod = "go.mod"
+	// rootPath sets the root directory path.
+	rootPath = "."
+	// mainAppName represents the name of the app at the root level.
+	mainAppName = "go-learning"
 )
 
 // compileRecords walks the root directory to compile a list of `[]AppRecord`.
@@ -18,7 +28,7 @@ func compileRecords() error {
 		}
 
 		// Process paths and handle case where path can equal the root go.mod.
-		if strings.Contains(path, goModPath) || path == goModRoot {
+		if strings.Contains(path, goMod) {
 			record := compileAppRec(path)
 			appRecords = append(appRecords, record)
 		}
@@ -33,15 +43,15 @@ func compileRecords() error {
 func compileAppRec(path string) AppRecord {
 	record := AppRecord{}
 
-	// Handle case where the root directory has a go.mod.
-	if path == goModRoot {
+	// Handle case where the root directory includes a go.mod.
+	if path == goMod {
 		record.AppPath = filepath.Base(filepath.Dir(path))
 		record.AppName = mainAppName
 
 		return record
 	}
 
-	path, _ = strings.CutSuffix(path, goModPath)
+	path, _ = strings.CutSuffix(path, "/"+goMod)
 	record.AppPath = path
 	record.AppName = strings.Replace(path, "/", "-", -1)
 
