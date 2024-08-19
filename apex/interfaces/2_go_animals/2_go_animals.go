@@ -36,12 +36,12 @@ func makeSound(animal Sounder) {
 	fmt.Println(animal.Sound())
 }
 
-//func main() {
-//	dog := Dog{}
-//	cat := Cat{}
-//	cow := Cow{}
-//
-//	makeSound(dog) // Output: Woof!
-//	makeSound(cat) // Output: Meow!
-//	makeSound(cow) // Output: Moo!
-//}
+func main() {
+	dog := Dog{}
+	cat := Cat{}
+	cow := Cow{}
+
+	makeSound(dog) // Output: Woof!
+	makeSound(cat) // Output: Meow!
+	makeSound(cow) // Output: Moo!
+}
