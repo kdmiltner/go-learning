@@ -3,8 +3,8 @@ package main
 import (
 	"errors"
 	"fmt"
-	"log"
 
+	"github.com/magefile/mage/mg"
 	"github.com/magefile/mage/sh"
 )
 
@@ -23,9 +23,7 @@ type AppRecord struct {
 
 func init() {
 	cgoEnabled = map[string]string{"CGO_ENABLED": "0"}
-	if err := CompileApps(); err != nil {
-		log.Fatal(err)
-	}
+	mg.SerialDeps(CompileApps)
 }
 
 // CompileApps will walk the repo directory and compiles a list of apps based on the
