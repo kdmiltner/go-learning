@@ -2,19 +2,8 @@ package main
 
 import (
 	"errors"
-	"fmt"
+	"github.com/magefile/mage/sh"
 	"log"
-)
-
-const (
-	// goModPath represents the go.mod path `/go.mod`.
-	goModPath = "/go.mod"
-	//goModRoot represents the go.mod path at the root directory.
-	goModRoot = "go.mod"
-	// rootPath sets the root directory path.
-	rootPath = "."
-	// mainAppName represents the name of the app at the root level.
-	mainAppName = "go-learning"
 )
 
 // Sets global and env variables that can be accessed in multiple functions.
@@ -37,21 +26,12 @@ func init() {
 	}
 }
 
-func Run() {
-}
-
-// HelloCFA is a mage target that prints out "Hello, Chick-fil-A!".
-// Run with the command: `mage helloCFA`.
-func HelloCFA() {
-	fmt.Println("Hello, Chick-fil-A!")
-}
-
 // CompileApps will walk the repo directory and compile a list of apps based on the
 // go.mod files found. Each go.mod file path will be treated as an app.
 // Run with the command: `mage compileApps`.
 func CompileApps() error {
 	err := compileRecords()
-	fmt.Println(appRecords)
+	//fmt.Println(appRecords)
 
 	return err
 }
@@ -73,4 +53,12 @@ func Test(app string) error {
 	}
 
 	return wrapErr
+}
+
+// RunPython with run the defined python script.
+// Run with the command: `mage runPython`.
+func RunPython() error {
+	err := sh.RunV("python", "./apex/interfaces/1_python/1_python_animals.py")
+
+	return err
 }
