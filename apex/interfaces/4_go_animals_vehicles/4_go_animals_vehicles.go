@@ -17,6 +17,7 @@ type Animal struct {
 }
 
 // Vehicle struct represents the data we will use to implement the Sounder interface.
+// Vehicle doesn't need to be structured in the say way as Animal to implement the Sounder interface.
 type Vehicle struct {
 	Vehicle string
 	Make    string
@@ -38,18 +39,19 @@ func (v Vehicle) Sound() string {
 	return fmt.Sprintf("The %s goes %q and it's a %s %s!", v.Vehicle, v.Noise, v.Make, v.Model)
 }
 
-// MakeSound function
+// MakeSound function can be called with an Animal or Vehicle since they implement Sounder.
 func MakeSound(s Sounder) {
 	fmt.Println(s.Sound())
 }
 
 func main() {
-	// Since a is of type Animal2 and Animal implements a method Sound it satisfies
-	// the interface and can be considered a Sounder.
+	// Since a is of type Animal and Animal implements a method Sound it satisfies
+	// the Sounder interface and can be considered a Sounder.
 	a := Animal{Animal: "dog", Noise: "woof"}
 	MakeSound(a) // Output: The dog says 'woof'
 
-	// v is also a Sounder.
+	// v is also a Sounder since Vehicle implements a method Sound that satisfies the
+	// Sounder interface.
 	v := Vehicle{Vehicle: "train", Noise: "choo choo"}
 	MakeSound(v) // Output: The train goes 'choo choo'!
 
