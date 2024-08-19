@@ -2,8 +2,10 @@ package main
 
 import (
 	"errors"
-	"github.com/magefile/mage/sh"
+	"fmt"
 	"log"
+
+	"github.com/magefile/mage/sh"
 )
 
 // Sets global and env variables that can be accessed in multiple functions.
@@ -26,12 +28,12 @@ func init() {
 	}
 }
 
-// CompileApps will walk the repo directory and compile a list of apps based on the
+// CompileApps will walk the repo directory and compiles a list of apps based on the
 // go.mod files found. Each go.mod file path will be treated as an app.
 // Run with the command: `mage compileApps`.
 func CompileApps() error {
 	err := compileRecords()
-	//fmt.Println(appRecords)
+	fmt.Println(appRecords)
 
 	return err
 }
@@ -56,7 +58,7 @@ func Test(app string) error {
 }
 
 // RunPython with run the defined python script.
-// Run with the command: `mage runPython`.
+// Run with the command: `mage runPython`
 func RunPython() error {
 	err := sh.RunV("python", "./apex/interfaces/1_python/1_python_animals.py")
 
