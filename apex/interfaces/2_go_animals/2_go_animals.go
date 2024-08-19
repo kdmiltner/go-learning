@@ -1,3 +1,5 @@
+// package main
+// goplayground link: https://go.dev/play/p/wzfNJsGqxNG
 package main
 
 import "fmt"

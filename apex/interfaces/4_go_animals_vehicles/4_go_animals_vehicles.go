@@ -1,3 +1,5 @@
+// package main
+// goplayground link: https://go.dev/play/p/_AZgjw3iCUJ
 package main
 
 import "fmt"
@@ -53,5 +55,5 @@ func main() {
 
 	v.Make = "Bullet"
 	v.Model = "3000"
-	MakeSound(v) // Output: The train goes 'choo choo' and it's a Bullet 3000!
+	fmt.Println(v.Sound()) // Output: The train goes 'choo choo' and it's a Bullet 3000!
 }
