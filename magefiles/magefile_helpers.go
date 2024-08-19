@@ -22,6 +22,7 @@ const (
 
 // compileRecords walks the root directory to compile a list of `[]AppRecord`.
 func compileRecords() error {
+	clearExistingRecords()
 	err := filepath.WalkDir(rootPath, func(path string, dir fs.DirEntry, err error) error {
 		if err != nil {
 			return err
@@ -37,6 +38,11 @@ func compileRecords() error {
 	})
 
 	return err
+}
+
+// clearExistingRecords will reset the appRecords slice to the zero value.
+func clearExistingRecords() {
+	appRecords = []AppRecord{}
 }
 
 // compileAppRec compiles all the app information into an `AppRecord{}`.
