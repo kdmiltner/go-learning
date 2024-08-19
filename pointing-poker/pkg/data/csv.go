@@ -15,12 +15,8 @@ type csvDatabase struct {
 	csv *os.File
 }
 
-func (c *csvDatabase) Write(value any) error {
-	str, ok := value.(string)
-	if !ok {
-		return fmt.Errorf("value is not a string")
-	}
-	_, err := c.csv.Write([]byte(fmt.Sprintf("%s,", str)))
+func (c *csvDatabase) Write(value string) error {
+	_, err := c.csv.Write([]byte(fmt.Sprintf("%s,\n", value)))
 	if err != nil {
 		return fmt.Errorf("error writing to %s: %v", tmpDBFile, err)
 	}
@@ -28,16 +24,11 @@ func (c *csvDatabase) Write(value any) error {
 	return nil
 }
 
-func (c *csvDatabase) Read(value any) (bool, error) {
+func (c *csvDatabase) Read(value string) (bool, error) {
 	var (
 		found bool
 		wg    sync.WaitGroup
 	)
-
-	str, ok := value.(string)
-	if !ok {
-		return found, fmt.Errorf("value is not a string")
-	}
 
 	r := csv.NewReader(c.csv)
 	records, err := r.ReadAll()
@@ -46,21 +37,20 @@ func (c *csvDatabase) Read(value any) (bool, error) {
 	}
 
 	// TODO: look at using the index to capture where the sessionID match is
-	for _, rec := range records[0] {
+	for _, rec := range records {
 		wg.Add(1)
 		go func() bool {
 			defer wg.Done()
-			if rec == str {
+			if rec[0] == value {
 				found = true
 			}
-
 			return found
 		}()
-		wg.Wait()
 		if found == true {
 			break
 		}
 	}
+	wg.Wait()
 
 	return found, nil
 }
