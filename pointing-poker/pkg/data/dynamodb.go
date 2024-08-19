@@ -10,20 +10,12 @@ type dynamoDatabase struct {
 	dynamodb *dynamodb.Client
 }
 
-func (d *dynamoDatabase) Write(value any) error {
-	str, ok := value.(string)
-	if !ok {
-		return fmt.Errorf("value is not a string")
-	}
-	fmt.Println(str)
+func (d *dynamoDatabase) Write(value string) error {
+	fmt.Println(value)
 	return nil
 }
 
-func (d *dynamoDatabase) Read(value any) (bool, error) {
-	str, ok := value.(string)
-	if !ok {
-		return false, fmt.Errorf("value is not a string")
-	}
-	fmt.Println(str)
+func (d *dynamoDatabase) Read(value string) (bool, error) {
+	fmt.Println(value)
 	return false, nil
 }
