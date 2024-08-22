@@ -25,6 +25,14 @@ type Vehicle struct {
 	Noise   string
 }
 
+// Speaker struct represents the data associated with an electronic speaker.
+// Speaker does not have a Sound method, so it does not satisfy the Sounder interface.
+type Speaker struct {
+	Brand      string
+	Size       float64
+	MaxDecibel int
+}
+
 // Sound implementation receives an Animal struct and returns a string, satisfying the Sounder interface.
 func (a Animal) Sound() string {
 	return fmt.Sprintf("The %s says %q", a.Animal, a.Noise)
@@ -58,4 +66,9 @@ func main() {
 	v.Make = "Bullet"
 	v.Model = "3000"
 	fmt.Println(v.Sound()) // Output: The train goes 'choo choo' and it's a Bullet 3000!
+
+	// Since s is of type Speaker and Speaker does not have a Sound method it does
+	// not implement or satisfy the Sounder interface and cannot be passed to MakeSound().
+	//s := Speaker{Brand: "Bose", Size: 6.25, MaxDecibel: 90}
+	//MakeSound(s)
 }
