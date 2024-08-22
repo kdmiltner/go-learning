@@ -10,4 +10,4 @@
 * Interfaces:
   * Simple Python translation to Go: https://go.dev/play/p/wzfNJsGqxNG
   * Above in Go best practice format: https://go.dev/play/p/KdbtkQTjixa
-  * Animals and Vehicles: https://go.dev/play/p/_AZgjw3iCUJ
+  * Animals and Vehicles: https://go.dev/play/p/Uj6dh_UoaRk

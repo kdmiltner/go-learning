@@ -1,5 +1,5 @@
 // package main
-// goplayground link: https://go.dev/play/p/_AZgjw3iCUJ
+// goplayground link: https://go.dev/play/p/Uj6dh_UoaRk
 package main
 
 import "fmt"
