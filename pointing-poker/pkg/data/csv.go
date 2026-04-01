@@ -1,6 +1,7 @@
 package data
 
 import (
+	"context"
 	"encoding/csv"
 	"errors"
 	"fmt"
@@ -16,7 +17,11 @@ type csvDatabase struct {
 	csv *os.File
 }
 
-func (c *csvDatabase) Write(value string) error {
+func (c *csvDatabase) Write(ctx context.Context, value string) error {
+	if err := ctx.Err(); err != nil {
+		return fmt.Errorf("context error: %v", err)
+	}
+
 	_, err := c.csv.Write([]byte(fmt.Sprintf("%s,\n", value)))
 	if err != nil {
 		return fmt.Errorf("error writing to %s: %v", tmpDBFile, err)
@@ -25,7 +30,11 @@ func (c *csvDatabase) Write(value string) error {
 	return nil
 }
 
-func (c *csvDatabase) Read(value string) (bool, error) {
+func (c *csvDatabase) Read(ctx context.Context, value string) (bool, error) {
+	if err := ctx.Err(); err != nil {
+		return false, fmt.Errorf("context error: %v", err)
+	}
+
 	var (
 		found bool
 		wg    sync.WaitGroup
