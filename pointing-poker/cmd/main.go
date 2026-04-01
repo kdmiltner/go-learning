@@ -1,6 +1,8 @@
 package main
 
-import pointingPoker "pointing-poker"
+import (
+	pointingPoker "pointing-poker"
+)
 
 func main() {
 	s := pointingPoker.NewServer()
